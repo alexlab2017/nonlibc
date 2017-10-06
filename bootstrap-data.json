@@ -1,0 +1,128 @@
+{
+  "platforms" : {
+    "linux" : {
+      "pakages": ["ninja", "valgrind", "pip3", "gem"]
+
+    },
+    "darwin" : {
+
+    },
+    "win32" : {
+
+    }
+  },
+	"os": {
+		"windows": {
+
+    },
+		"fedora": {
+			"default_pgk_mgr": "dnf",
+			"pakages": ["libasan", "libtsan", "ruby-developer"]
+		},
+		"ubuntu": {
+			"default_pgk_mgr": "apt-get"
+		},
+		"osx": {
+			"default_pgk_mgr": "brew"
+		}
+	},
+
+
+	"os_pkg_manager": {
+		"dnf": {
+      "suitable_for" : ["linux", "darwin"],
+			"update_cmd": "sudo dnf update",
+			"install_cmd": "sudo dnf -y install {pkg}"
+		},
+		"apt-get": {
+			"update_cmd": ["sudo", "apt-get", "update"],
+			"install_cmd": ["sudo", "apt-get", "-y", "install", "{pkg}"]
+		},
+		"brew": {
+			"update_cmd": "brew update",
+			"install_cmd": "brew install {pkg}"
+		}
+	},
+
+
+	"os-packages": {
+
+		"libasan": {
+			"pkg_name": {
+				"dnf": "libasan"
+			}
+		},
+		"libtsan": {
+			"pkg_name": {
+				"dnf": "libtsan"
+			}
+		},
+		"ruby-developer": {
+			"pkg_name": {
+				"dnf": "ruby-devel",
+				"apt-get": "ruby-dev"
+			}
+		},
+		"valgrind": {
+			"required_version": "1.1.1"
+		},
+		"ninja": {
+			"required_version": "1.1.1"
+		},
+		"pip3": {
+			"pkg_name": {
+				"dnf": "python3-pip",
+				"apt-get": "python3-pip",
+				"brew": "python3-pip"
+			}
+		},
+		"gem": {
+			"dnf": "gem",
+			"apt-get": "gem",
+			"brew": "gem"
+		}
+	},
+
+	"pip3-pkg-manager": {
+		"install_cmd": ["sudo", "-H", "pip3", "install", "{pkg_name}"],
+		"intall_version_cmd": ["sudo", "-H", "pip3", "install", "{pkg_name}=={pkg_vers}", "--force-reinstall"]
+	},
+
+	"pip3-packages": {
+		"meson": {}
+	},
+
+	"gem-pkg-manager": {
+		"install_cmd": ["sudo", "gem", "install", "{pkg_name}"]
+	},
+
+	"builds": {
+		"debug": {
+			"type": "debug"
+		},
+		"release": {
+			"type": "release"
+		},
+		"plain": {
+			"type": "plain"
+		},
+		"debug-opt": {
+			"type": "debugoptimized",
+			"grind": true
+		},
+		"asan": {
+			"type": "debugoptimized",
+			"opts": ["-Db_sanitize=address"],
+			"env": {
+				"VALGRIND": "1"
+			}
+		},
+		"tsan": {
+			"type": "debugoptimized",
+			"opts": ["-Db_sanitize=thread"],
+			"env": {
+				"VALGRIND": "1"
+			}
+		}
+	}
+}
