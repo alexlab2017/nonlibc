@@ -5,47 +5,48 @@
 
     },
     "darwin" : {
-
+      "pakages": ["ninja", "valgrind", "pip3", "gem"]
     },
     "win32" : {
-
+      "pakages": []
     }
   },
-	"os": {
-		"windows": {
-
-    },
+	"linux_distros": {
 		"fedora": {
 			"default_pgk_mgr": "dnf",
 			"pakages": ["libasan", "libtsan", "ruby-developer"]
 		},
 		"ubuntu": {
-			"default_pgk_mgr": "apt-get"
-		},
-		"osx": {
-			"default_pgk_mgr": "brew"
+			"default_pgk_mgr": "apt-get",
+			"pakages": ["ruby-developer"]
 		}
 	},
 
 
-	"os_pkg_manager": {
+	"pkg_mgrs": {
 		"dnf": {
-      "suitable_for" : ["linux", "darwin"],
-			"update_cmd": "sudo dnf update",
-			"install_cmd": "sudo dnf -y install {pkg}"
+      "suitable_for" : ["linux"],
+			"update_cmd": ["sudo", "dnf", "update"],
+			"install_cmd": ["sudo", "dnf", "-y", "install", "{pkg_name}"]
 		},
 		"apt-get": {
+      "suitable_for" : ["linux"],
 			"update_cmd": ["sudo", "apt-get", "update"],
-			"install_cmd": ["sudo", "apt-get", "-y", "install", "{pkg}"]
+			"install_cmd": ["sudo", "apt-get", "-y", "install", "{pkg_name}"]
 		},
 		"brew": {
-			"update_cmd": "brew update",
-			"install_cmd": "brew install {pkg}"
+      "suitable_for" : ["darwin"],
+			"update_cmd": ["brew", "update"],
+			"install_cmd": ["brew", "install", "{pkg_name}"]
+		},
+    "port": {
+      "suitable_for" : ["darwin"],
+			"install_cmd": [ "sudo", "port", "install", "{pkg_name}" ]
 		}
 	},
 
 
-	"os-packages": {
+	"pkgs": {
 
 		"libasan": {
 			"pkg_name": {
@@ -64,10 +65,20 @@
 			}
 		},
 		"valgrind": {
-			"required_version": "1.1.1"
+			"required_version": "1.1.1",
+      "pkg_name": {
+        "dnf": "valgrind",
+        "apt-get": "valgrind",
+        "brew": "valgrind"
+      }
 		},
 		"ninja": {
-			"required_version": "1.1.1"
+			"required_version": "1.1.1",
+			"pkg_name": {
+        "dnf": "ninja",
+        "apt-get": "ninja-build",
+        "brew": "ninja"
+      }
 		},
 		"pip3": {
 			"pkg_name": {
@@ -77,9 +88,11 @@
 			}
 		},
 		"gem": {
-			"dnf": "gem",
-			"apt-get": "gem",
-			"brew": "gem"
+			"pkg_name": {
+			  "dnf": "gem",
+			  "apt-get": "gem",
+			  "brew": "gem"
+      }
 		}
 	},
 
@@ -95,6 +108,10 @@
 	"gem-pkg-manager": {
 		"install_cmd": ["sudo", "gem", "install", "{pkg_name}"]
 	},
+
+  "gem-packages": {
+    "": {}
+  },
 
 	"builds": {
 		"debug": {
